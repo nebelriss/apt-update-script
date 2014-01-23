@@ -1,0 +1,12 @@
+#!/bin/bash
+
+# Author: Michel Heiniger
+# Licence: GPL v3
+# Description: A script to update a debian system over cron and log packages that been updated.
+
+# Usage: apt-auto-update [options]
+#
+# Options:
+#	-h, --help		Display description and options.
+#	-v, --version	Display version of the script
+#
