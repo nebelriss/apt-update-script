@@ -10,3 +10,16 @@
 #	-h, --help		Display description and options.
 #	-v, --version	Display version of the script
 #
+
+VERSION='0.1'
+MAIL='monitor@nebelriss.com'
+LOGFILE='apt-update'
+LOGDIR='/var/log/'
+
+while [ $# -gt 0  ]; do
+	case $1 in
+	(-h|--help) echo 'le help message'; exit 0;;
+	(-v|--version) echo 'version:' $VERSION; exit 0;;
+	(-u|--update) update;;
+	esac
+done
