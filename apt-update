@@ -16,6 +16,21 @@ MAIL='monitor@nebelriss.com'
 LOGFILE='apt-update'
 LOGDIR='/var/log/'
 
+check_kernel_update() {
+	# checking package list for kernel upgrade.
+	# If there is a kernel update, a mail is send to the admin.
+	exit 0
+}
+
+update() {
+	echo 'running the update'
+
+	# getting upgrade packages list
+	UPDATE_LIST=$(apt-get -s dist-upgrade | awk '/^Inst/ { print $2 }' | tr '\n' ', ')
+
+	exit 0
+}
+
 while [ $# -gt 0  ]; do
 	case $1 in
 	(-h|--help) echo 'le help message'; exit 0;;
