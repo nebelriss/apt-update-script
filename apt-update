@@ -42,7 +42,7 @@ update() {
 	apt-get update > /dev/null 2>&1
 
 	# getting upgrade packages list
-	UPDATE_LIST=$(apt-get -s dist-upgrade | awk '/^Inst/ { print $2 }' | tr '\n' ', ')
+	UPDATE_LIST=$(apt-get -s dist-upgrade | awk '/^Inst/ { print $2 }' | tr '\n' ' ')
 	
 	# if no: packages will be updated. (apt-get dis-upgrade)
 	# if no: only non kernel related packages will be updated. (apt-get upgrade)
