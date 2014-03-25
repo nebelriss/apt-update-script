@@ -15,7 +15,7 @@
 VERSION='0.1'
 MAIL='admin@domail.com'
 LOGFILE='apt-update'
-LOG='/var/log/mh-updater'
+LOG='/var/log/mh-updater.log'
 KERNEL_TARGET='linux'
 TIMESTAMP=$(date +"[%a %d.%m.%Y - %H:%M:%S]")
 
@@ -37,7 +37,7 @@ normal_update() {
 }
 
 update() {
-	echo 'running the update' #debug
+	#echo 'running the update' #debug
 
 	apt-get update > /dev/null 2>&1
 
@@ -54,7 +54,7 @@ update() {
 			normal_update
 		fi
 	else
-		echo $TIMESTAMP ' No updates found.'
+		echo $TIMESTAMP ' No updates found.' >> $LOG
 		exit 0
 	fi
 
