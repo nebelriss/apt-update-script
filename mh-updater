@@ -13,7 +13,7 @@
 ##
 
 VERSION='0.1'
-MAIL='admin@domail.com'
+MAIL='crashdown@nebelriss.com'
 LOGFILE='apt-update'
 LOG='/var/log/mh-updater.log'
 KERNEL_TARGET='linux'
