@@ -9,57 +9,61 @@
 ## Options:
 #	-h, --help		Display description and options.
 #	-v, --version	Display version of the script
+#	-u,	--update	Perform a upgrade
 ##
 
 VERSION='0.1'
-MAIL='monitor@nebelriss.com'
+MAIL='admin@domail.com'
 LOGFILE='apt-update'
 LOG='/var/log/mh-updater'
 KERNEL_TARGET='linux'
+TIMESTAMP=$(date +"[%a %d.%m.%Y - %H:%M:%S]")
 
 kernel_update() {
 	## TODO
-	# checking package list for kernel upgrade.
-	# If there is a kernel update, a mail is send to the admin.
-	echo 'There are kernel packages to upgrade' #debug
+	# - If there is a kernel update, a mail is send to the admin.
+	# - Error handling
+	apt-get -y upgrade > /dev/null 2>&1
+	echo $TIMESTAMP 'There are kernel packages to upgrade. Packages upgraded: ' $UPDATE_LIST >> $LOG
 	exit 0
 }
 
 normal_update() {
 	## TODO
-	# -write to logfile
-	echo 'no kernel packages found, so doing the update' #debug
-
-	apt-get update && apt-get -y upgrade > /dev/null 2>&1
-	
-	echo 'normal upgrade done' #debug
+	# - Error handling
+	apt-get -y upgrade > /dev/null 2>&1
+	echo $TIMESTAMP 'Packages upgraded: ' $UPDATE_LIST >> $LOG
 	exit 0
 }
 
 update() {
-	echo 'running the update'
-	
-	echo 'refreshing package-list' #debug
+	echo 'running the update' #debug
+
 	apt-get update > /dev/null 2>&1
 
 	# getting upgrade packages list
 	UPDATE_LIST=$(apt-get -s dist-upgrade | awk '/^Inst/ { print $2 }' | tr '\n' ' ')
 	
-	# if no: packages will be updated. (apt-get dis-upgrade)
-	# if yes: only non kernel related packages will be updated. (apt-get upgrade)
-	if [[ '$UPDATE_LIST' == *$KERNEL_TARGET*]]; then
-		kernel_update
+	# check if list is empty
+	if [[ ! -z $UPDATE_LIST ]]; then
+		# if yes: only non kernel related packages will be updated. (apt-get upgrade)
+		# if no: packages will be updated. (apt-get dis-upgrade)
+		if grep -q $KERNEL_TARGET <<< $UPDATE_LIST; then
+			kernel_update
+		else
+			normal_update
+		fi
 	else
-		normal_update
+		echo $TIMESTAMP ' No updates found.'
+		exit 0
 	fi
 
-	exit 0
+	exit 1
 }
 
-while [ $# -gt 0  ]; do
-	case $1 in
-	(-h|--help) echo 'le help message'; exit 0;;
-	(-v|--version) echo 'version:' $VERSION; exit 0;;
-	(-u|--update) update;;
-	esac
-done
+case $1 in
+-h|--help) echo 'le help message'; exit 0;;
+-v|--version) echo 'version:' $VERSION; exit 0;;
+-u|--update) update;;
+*) update;;
+esac
