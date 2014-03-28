@@ -18,6 +18,7 @@ LOGFILE='apt-update'
 LOG='/var/log/mh-updater.log'
 KERNEL_TARGET='linux'
 TIMESTAMP=$(date +"[%a %d.%m.%Y - %H:%M:%S]")
+HELPMSG='(-h, --help): for help\n(-v, --version): print version\n(-u, --update): to run the update script'
 
 kernel_update() {
 	## TODO
@@ -62,7 +63,7 @@ update() {
 }
 
 case $1 in
--h|--help) echo 'le help message'; exit 0;;
+-h|--help) echo -e $HELPMSG; exit 0;;
 -v|--version) echo 'version:' $VERSION; exit 0;;
 -u|--update) update;;
 *) update;;
