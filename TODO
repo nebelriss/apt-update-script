@@ -1,3 +1,3 @@
 - Error handling: if a update fails
-- dialog handling: if a package needs user input (detact?, avoid?, autocomplete?)
-- Mail notification for kernel updates for the restart afterwards
+- dialog handling: if a package needs user input (detect?, avoid?, autocomplete?)
+- Mail notification for kernel updates for the restart afterwards or auto restart after x hours
