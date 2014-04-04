@@ -21,25 +21,20 @@ TIMESTAMP=$(date +"[%a %d.%m.%Y - %H:%M:%S]")
 HELPMSG='(-h, --help): for help\n(-v, --version): print version\n(-u, --update): to run the update script'
 
 kernel_update() {
-	## TODO
-	# - If there is a kernel update, a mail is send to the admin.
-	# - Error handling
 	apt-get -y upgrade > /dev/null 2>&1
 	echo $TIMESTAMP 'There are kernel packages to upgrade. Packages upgraded: ' $UPDATE_LIST >> $LOG
 	exit 0
 }
 
 normal_update() {
-	## TODO
-	# - Error handling
 	apt-get -y upgrade > /dev/null 2>&1
 	echo $TIMESTAMP 'Packages upgraded: ' $UPDATE_LIST >> $LOG
 	exit 0
 }
 
 update() {
-	#echo 'running the update' #debug
-
+	
+	# update repositories
 	apt-get update > /dev/null 2>&1
 
 	# getting upgrade packages list
